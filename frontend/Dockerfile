@@ -1,5 +1,5 @@
 # Single-stage build for Angular application
-FROM node:20-alpine AS builder
+FROM node:25-alpine AS builder
 
 # Install security updates
 RUN apk update && apk upgrade
