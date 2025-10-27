@@ -1,5 +1,5 @@
 # Single-stage build for simplicity
-FROM node:20-alpine
+FROM node:25-alpine
 
 # Install security updates and required packages
 RUN apk update && apk upgrade && \
