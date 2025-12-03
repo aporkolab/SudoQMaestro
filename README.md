@@ -1,7 +1,5 @@
 # SudoQMaestro
 
-[![CI/CD Pipeline](https://github.com/yourusername/SudoQMaestro/workflows/CI%2FCD%20Pipeline/badge.svg)](https://github.com/yourusername/SudoQMaestro/actions)
-[![codecov](https://codecov.io/gh/yourusername/SudoQMaestro/branch/main/graph/badge.svg)](https://codecov.io/gh/yourusername/SudoQMaestro)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D20.0.0-brightgreen.svg)](https://nodejs.org/)
 [![Angular](https://img.shields.io/badge/Angular-20-red.svg)](https://angular.io/)
@@ -428,6 +426,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 If you encounter any issues or have questions, please:
 
-1. Check the [Issues](https://github.com/yourusername/SudoQMaestro/issues) page
+1. Check the [Issues](https://github.com/aporkolab/SudoQMaestro/issues) page
 2. Create a new issue if your problem isn't listed
 3. Provide detailed reproduction steps and error messages
