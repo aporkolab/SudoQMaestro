@@ -126,7 +126,7 @@ jobs:
         tar -czf backend-artifacts.tar.gz -C backend .
     
     - name: Upload backend artifacts
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
         name: backend-artifacts
         path: backend-artifacts.tar.gz
@@ -160,7 +160,7 @@ jobs:
         NODE_ENV: production
     
     - name: Upload frontend build artifacts
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
         name: frontend-dist
         path: frontend/dist/
