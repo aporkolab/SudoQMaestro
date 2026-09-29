@@ -1,14 +1,14 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { SudokuGrid } from '../../services/sudoku-api';
 
 @Component({
   selector: 'app-sudoku-grid',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './sudoku-grid.html',
   styleUrl: './sudoku-grid.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SudokuGridComponent {
   @Input() grid: SudokuGrid | null = null;
@@ -18,7 +18,7 @@ export class SudokuGridComponent {
   trackByIndex(index: number): number {
     return index;
   }
-  
+
   // Alias for template use
   trackByFn = this.trackByIndex;
 }

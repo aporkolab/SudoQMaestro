@@ -1,5 +1,5 @@
 # Single-stage build for Angular application
-FROM node:20-alpine AS builder
+FROM node:24-alpine AS builder
 
 # Install security updates
 RUN apk update && apk upgrade
@@ -11,7 +11,7 @@ WORKDIR /app
 COPY . .
 
 # Install dependencies and build
-RUN npm install && npm run build:prod
+RUN npm ci && npm run build:prod
 
 # Production stage with Nginx
 FROM nginx:1.25-alpine AS production

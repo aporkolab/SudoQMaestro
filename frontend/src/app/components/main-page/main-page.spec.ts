@@ -1,3 +1,4 @@
+import { PLATFORM_ID } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of, throwError } from 'rxjs';
@@ -104,5 +105,21 @@ describe('MainPageComponent', () => {
     // Verify null was set first (clearing state)
     expect(component.puzzleState.set).toHaveBeenCalledWith(null);
     expect(component.puzzleState.set).toHaveBeenCalledWith(mockPuzzleResult);
+  });
+});
+
+
+describe('MainPageComponent prerendering', () => {
+  it('does not request a puzzle while rendering on the server', () => {
+    const sudokuService = jasmine.createSpyObj('SudokuApiService', ['generateSudoku']);
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: PLATFORM_ID, useValue: 'server' },
+        { provide: SudokuApiService, useValue: sudokuService },
+      ],
+    });
+    const component = TestBed.runInInjectionContext(() => new MainPageComponent());
+    component.ngOnInit();
+    expect(sudokuService.generateSudoku).not.toHaveBeenCalled();
   });
 });

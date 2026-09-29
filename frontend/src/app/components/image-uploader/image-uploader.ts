@@ -1,13 +1,14 @@
-import { Component, EventEmitter, Output, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, EventEmitter, Output, inject, ChangeDetectionStrategy } from '@angular/core';
+
 import { SudokuApiService, SudokuGrid } from '../../services/sudoku-api';
 
 @Component({
   selector: 'app-image-uploader',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './image-uploader.html',
-  styleUrl: './image-uploader.scss'
+  changeDetection: ChangeDetectionStrategy.Eager,
+  styleUrl: './image-uploader.scss',
 })
 export class ImageUploaderComponent {
   @Output() solveSuccess = new EventEmitter<SudokuGrid>();
@@ -29,7 +30,7 @@ export class ImageUploaderComponent {
 
       // Create a preview
       const reader = new FileReader();
-      reader.onload = () => this.previewUrl = reader.result;
+      reader.onload = () => (this.previewUrl = reader.result);
       reader.readAsDataURL(this.selectedFile);
     }
   }
@@ -53,7 +54,7 @@ export class ImageUploaderComponent {
         const errorMessage = err.error?.msg || err.message || 'Failed to solve puzzle from image.';
         this.error = errorMessage;
         this.uploadError.emit(errorMessage);
-      }
+      },
     });
   }
 }

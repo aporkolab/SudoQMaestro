@@ -1,3 +1,5 @@
+import packageInfo from '../../package.json';
+
 export const environment = {
   production: true,
   apiUrl: '/api',
@@ -5,6 +7,5 @@ export const environment = {
   enableDebugTools: false,
   enableMocking: false,
   logLevel: 'error',
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  version: require('../../package.json').version,
+  version: packageInfo.version,
 };

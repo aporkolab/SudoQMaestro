@@ -1,5 +1,14 @@
-import { Component, OnInit, inject, signal, WritableSignal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { isPlatformBrowser } from '@angular/common';
+import {
+  Component,
+  PLATFORM_ID,
+  OnInit,
+  inject,
+  signal,
+  WritableSignal,
+  ChangeDetectionStrategy,
+} from '@angular/core';
+
 import { SudokuGridComponent } from '../sudoku-grid/sudoku-grid';
 import { ImageUploaderComponent } from '../image-uploader/image-uploader';
 import { ErrorBoundaryComponent } from '../error-boundary/error-boundary';
@@ -9,11 +18,13 @@ import { NotificationService } from '../../services/notification.service';
 @Component({
   selector: 'app-main-page',
   standalone: true,
-  imports: [CommonModule, SudokuGridComponent, ImageUploaderComponent, ErrorBoundaryComponent],
+  imports: [SudokuGridComponent, ImageUploaderComponent, ErrorBoundaryComponent],
   templateUrl: './main-page.html',
-  styleUrl: './main-page.scss'
+  changeDetection: ChangeDetectionStrategy.Eager,
+  styleUrl: './main-page.scss',
 })
 export class MainPageComponent implements OnInit {
+  private platformId = inject(PLATFORM_ID);
   private sudokuService = inject(SudokuApiService);
   private notificationService = inject(NotificationService);
 
@@ -22,14 +33,16 @@ export class MainPageComponent implements OnInit {
   error = signal<string | null>(null);
 
   ngOnInit(): void {
-    this.loadNewPuzzle();
+    if (isPlatformBrowser(this.platformId)) {
+      this.loadNewPuzzle();
+    }
   }
 
   loadNewPuzzle(difficulty: 'easy' | 'medium' | 'hard' = 'medium'): void {
     this.isLoading.set(true);
     this.error.set(null);
     this.puzzleState.set(null);
-    
+
     this.sudokuService.generateSudoku(difficulty).subscribe({
       next: (data) => {
         this.puzzleState.set(data);
@@ -42,7 +55,7 @@ export class MainPageComponent implements OnInit {
         this.error.set(errorMessage);
         this.notificationService.showError(errorMessage);
         console.error('Failed to generate puzzle', err);
-      }
+      },
     });
   }
 
@@ -51,11 +64,11 @@ export class MainPageComponent implements OnInit {
     this.puzzleState.set({
       puzzle: solutionGrid,
       solution: solutionGrid,
-      difficulty: 'custom'
+      difficulty: 'custom',
     });
     this.notificationService.showSuccess('Puzzle solved from image successfully!');
   }
-  
+
   onImageSolveError(errorMessage: string): void {
     this.error.set(errorMessage);
   }
