@@ -1,5 +1,5 @@
 # Single-stage build for simplicity
-FROM node:20-alpine
+FROM node:24-alpine
 
 # Install security updates and required packages
 RUN apk update && apk upgrade && \
@@ -16,11 +16,12 @@ WORKDIR /app
 # Copy workspace package files
 COPY package*.json ./
 COPY backend/package*.json ./backend/
+COPY frontend/package.json ./frontend/package.json
 
 # Install only production dependencies for workspace
 # Set environment variables to skip husky and scripts
 ENV HUSKY=0
-RUN npm ci --omit=dev --workspaces && \
+RUN npm ci --omit=dev --workspace=backend && \
     npm cache clean --force
 
 # Copy backend application files
