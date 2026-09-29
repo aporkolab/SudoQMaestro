@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withXhr } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
 import { signal } from '@angular/core';
 import { App } from './app';
@@ -12,9 +12,9 @@ describe('App', () => {
       currentUser: signal(null),
       login: jasmine.createSpy('login'),
       logout: jasmine.createSpy('logout'),
-      checkAuthStatus: jasmine.createSpy('checkAuthStatus')
+      checkAuthStatus: jasmine.createSpy('checkAuthStatus'),
     };
-    
+
     const mockNotificationService = {
       message: signal(null),
       type: signal('info' as 'info' | 'success' | 'warning' | 'error'),
@@ -22,17 +22,17 @@ describe('App', () => {
       showError: jasmine.createSpy('showError'),
       showSuccess: jasmine.createSpy('showSuccess'),
       showWarning: jasmine.createSpy('showWarning'),
-      clear: jasmine.createSpy('clear')
+      clear: jasmine.createSpy('clear'),
     };
 
     await TestBed.configureTestingModule({
       imports: [App],
       providers: [
-        provideHttpClient(),
+        provideHttpClient(withXhr()),
         provideRouter([]),
         { provide: AuthService, useValue: mockAuthService },
-        { provide: NotificationService, useValue: mockNotificationService }
-      ]
+        { provide: NotificationService, useValue: mockNotificationService },
+      ],
     }).compileComponents();
   });
 
