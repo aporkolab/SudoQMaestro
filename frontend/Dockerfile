@@ -7,11 +7,14 @@ RUN apk update && apk upgrade
 # Set working directory
 WORKDIR /app
 
-# Copy source code first
-COPY . .
+# Install from the shared workspace lockfile. Build from the repository root.
+COPY package.json package-lock.json ./
+COPY backend/package.json ./backend/package.json
+COPY frontend/package.json ./frontend/package.json
+RUN npm ci --workspace=frontend
 
-# Install dependencies and build
-RUN npm ci && npm run build:prod
+COPY frontend ./frontend
+RUN npm run build:prod --workspace=frontend
 
 # Production stage with Nginx
 FROM nginx:1.31-alpine AS production
@@ -26,10 +29,10 @@ RUN addgroup -g 1001 -S nginx-app && \
     adduser -S nginx-app -u 1001 -G nginx-app
 
 # Copy built application from builder stage
-COPY --from=builder /app/dist/frontend/browser /usr/share/nginx/html
+COPY --from=builder /app/frontend/dist/frontend/browser /usr/share/nginx/html
 
 # Copy custom nginx configuration
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY frontend/nginx.conf /etc/nginx/nginx.conf
 
 # Set proper permissions
 RUN chown -R nginx-app:nginx-app /usr/share/nginx/html && \

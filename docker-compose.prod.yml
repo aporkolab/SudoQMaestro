@@ -40,8 +40,8 @@ services:
   # Backend API with comprehensive environment setup
   backend:
     build:
-      context: ./backend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: backend/Dockerfile
       target: production
     container_name: sudoq-backend
     restart: unless-stopped
@@ -86,8 +86,8 @@ services:
   # Frontend with nginx serving static files
   frontend:
     build:
-      context: ./frontend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: frontend/Dockerfile
       target: production
     container_name: sudoq-frontend
     restart: unless-stopped

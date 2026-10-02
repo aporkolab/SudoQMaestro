@@ -1,0 +1,9 @@
+.git
+**/node_modules
+**/dist
+**/coverage
+**/.angular
+**/.env
+**/.env.*
+!**/.env.example
+e2e-results
