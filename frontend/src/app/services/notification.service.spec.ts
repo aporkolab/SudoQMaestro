@@ -1,7 +1,15 @@
-import { TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { TestBed } from '@angular/core/testing';
 import { NotificationService } from './notification.service';
 
 describe('NotificationService', () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+  afterEach(() => {
+    vi.clearAllTimers();
+    vi.useRealTimers();
+  });
   let service: NotificationService;
 
   beforeEach(() => {
@@ -20,28 +28,28 @@ describe('NotificationService', () => {
 
   it('should show info message', () => {
     service.show('Test message', 'info');
-    
+
     expect(service.message()).toBe('Test message');
     expect(service.type()).toBe('info');
   });
 
   it('should show error message', () => {
     service.showError('Error message');
-    
+
     expect(service.message()).toBe('Error message');
     expect(service.type()).toBe('error');
   });
 
   it('should show success message', () => {
     service.showSuccess('Success message');
-    
+
     expect(service.message()).toBe('Success message');
     expect(service.type()).toBe('success');
   });
 
   it('should show warning message', () => {
     service.showWarning('Warning message');
-    
+
     expect(service.message()).toBe('Warning message');
     expect(service.type()).toBe('warning');
   });
@@ -49,34 +57,34 @@ describe('NotificationService', () => {
   it('should clear message', () => {
     service.show('Test message');
     service.clear();
-    
+
     expect(service.message()).toBeNull();
   });
 
-  it('should auto-clear message after timeout', fakeAsync(() => {
+  it('should auto-clear message after timeout', async () => {
     // Override the duration for faster testing
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (service as any).duration = 100;
-    
+
     service.show('Test message');
     expect(service.message()).toBe('Test message');
-    
-    tick(150);
-    expect(service.message()).toBeNull();
-  }));
 
-  it('should cancel previous timeout when showing new message', fakeAsync(() => {
+    await vi.advanceTimersByTimeAsync(150);
+    expect(service.message()).toBeNull();
+  });
+
+  it('should cancel previous timeout when showing new message', async () => {
     // Override the duration for faster testing
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (service as any).duration = 100;
-    
+
     service.show('First message');
-    
-    tick(50);
+
+    await vi.advanceTimersByTimeAsync(50);
     service.show('Second message');
     expect(service.message()).toBe('Second message');
-    
-    tick(150);
+
+    await vi.advanceTimersByTimeAsync(150);
     expect(service.message()).toBeNull();
-  }));
+  });
 });

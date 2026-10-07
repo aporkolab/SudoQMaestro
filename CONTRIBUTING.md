@@ -145,7 +145,7 @@ describe('Sudoku API', () => {
 ### Frontend Testing
 
 - Write unit tests for components and services
-- Use Jasmine and Karma
+- Use Vitest
 - Test user interactions
 - Mock HTTP calls
 

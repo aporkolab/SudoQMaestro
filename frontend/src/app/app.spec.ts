@@ -1,3 +1,4 @@
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { provideHttpClient, withXhr } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
@@ -10,19 +11,19 @@ describe('App', () => {
   beforeEach(async () => {
     const mockAuthService = {
       currentUser: signal(null),
-      login: jasmine.createSpy('login'),
-      logout: jasmine.createSpy('logout'),
-      checkAuthStatus: jasmine.createSpy('checkAuthStatus'),
+      login: vi.fn().mockName('login'),
+      logout: vi.fn().mockName('logout'),
+      checkAuthStatus: vi.fn().mockName('checkAuthStatus'),
     };
 
     const mockNotificationService = {
       message: signal(null),
       type: signal('info' as 'info' | 'success' | 'warning' | 'error'),
-      show: jasmine.createSpy('show'),
-      showError: jasmine.createSpy('showError'),
-      showSuccess: jasmine.createSpy('showSuccess'),
-      showWarning: jasmine.createSpy('showWarning'),
-      clear: jasmine.createSpy('clear'),
+      show: vi.fn().mockName('show'),
+      showError: vi.fn().mockName('showError'),
+      showSuccess: vi.fn().mockName('showSuccess'),
+      showWarning: vi.fn().mockName('showWarning'),
+      clear: vi.fn().mockName('clear'),
     };
 
     await TestBed.configureTestingModule({

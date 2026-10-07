@@ -1,3 +1,4 @@
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { SudokuApiService, SudokuGenerationResult } from './sudoku-api';
@@ -10,7 +11,7 @@ describe('SudokuApiService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [SudokuApiService]
+      providers: [SudokuApiService],
     });
     service = TestBed.inject(SudokuApiService);
     httpTestingController = TestBed.inject(HttpTestingController);
@@ -29,10 +30,10 @@ describe('SudokuApiService', () => {
     it('should return a generated puzzle and solution', () => {
       const mockResult: SudokuGenerationResult = {
         puzzle: [[0]],
-        solution: [[1]]
+        solution: [[1]],
       };
 
-      service.generateSudoku('easy').subscribe(data => {
+      service.generateSudoku('easy').subscribe((data) => {
         expect(data).toEqual(mockResult);
       });
 
@@ -52,7 +53,7 @@ describe('SudokuApiService', () => {
       const mockSolution = { solution: [[9]] };
       const mockFile = new File(['dummy'], 'dummy.png', { type: 'image/png' });
 
-      service.solveFromImage(mockFile).subscribe(data => {
+      service.solveFromImage(mockFile).subscribe((data) => {
         expect(data).toEqual(mockSolution);
       });
 
