@@ -1,3 +1,4 @@
+import { beforeEach, describe, expect, it, type MockedObject, vi } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ProfileComponent } from './profile';
@@ -6,23 +7,24 @@ import { AuthService } from '../../services/auth.service';
 describe('ProfileComponent', () => {
   let component: ProfileComponent;
   let fixture: ComponentFixture<ProfileComponent>;
-  let authService: jasmine.SpyObj<AuthService>;
+  let authService: MockedObject<AuthService>;
 
   beforeEach(async () => {
-    const authServiceSpy = jasmine.createSpyObj('AuthService', ['fetchCurrentUser', 'logout', 'isAuthenticated'], {
-      currentUser: jasmine.createSpy('currentUser').and.returnValue(null)
-    });
+    const authServiceSpy = {
+      fetchCurrentUser: vi.fn().mockName('AuthService.fetchCurrentUser'),
+      logout: vi.fn().mockName('AuthService.logout'),
+      isAuthenticated: vi.fn().mockName('AuthService.isAuthenticated'),
+      currentUser: vi.fn().mockName('currentUser').mockReturnValue(null),
+    };
 
     await TestBed.configureTestingModule({
       imports: [ProfileComponent, HttpClientTestingModule],
-      providers: [
-        { provide: AuthService, useValue: authServiceSpy }
-      ]
+      providers: [{ provide: AuthService, useValue: authServiceSpy }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ProfileComponent);
     component = fixture.componentInstance;
-    authService = TestBed.inject(AuthService) as jasmine.SpyObj<AuthService>;
+    authService = TestBed.inject(AuthService) as MockedObject<AuthService>;
   });
 
   it('should create', () => {

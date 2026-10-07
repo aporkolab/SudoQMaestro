@@ -237,7 +237,7 @@ ng serve             # Start development server
 ng build             # Build for development
 ng build:prod        # Build for production
 ng test              # Run unit tests
-ng test:ci           # Run tests in CI mode
+npm run test:ci           # Run tests in CI mode
 npm run test:single  # Run a single test file via --include
 ng lint              # Run linting
 ```
@@ -247,7 +247,7 @@ ng lint              # Run linting
 The project uses comprehensive testing strategies:
 
 - **Backend**: Jest with supertest for API testing
-- **Frontend**: Jasmine and Karma for unit testing
+- **Frontend**: Vitest for unit testing
 - **Coverage**: Minimum 70% coverage required
 - **CI Integration**: Automated testing on push/PR
 

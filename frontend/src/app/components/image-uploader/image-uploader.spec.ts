@@ -1,3 +1,4 @@
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of, throwError } from 'rxjs';
 import { ImageUploaderComponent } from './image-uploader';
@@ -11,17 +12,17 @@ describe('ImageUploaderComponent', () => {
 
   // Create a mock service
   const mockSudokuApiService = {
-    solveFromImage: jasmine.createSpy('solveFromImage').and.returnValue(of({ solution: [[1]] }))
+    solveFromImage: vi
+      .fn()
+      .mockName('solveFromImage')
+      .mockReturnValue(of({ solution: [[1]] })),
   };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ImageUploaderComponent, HttpClientTestingModule],
-      providers: [
-        { provide: SudokuApiService, useValue: mockSudokuApiService }
-      ]
-    })
-    .compileComponents();
+      providers: [{ provide: SudokuApiService, useValue: mockSudokuApiService }],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ImageUploaderComponent);
     component = fixture.componentInstance;
@@ -46,8 +47,8 @@ describe('ImageUploaderComponent', () => {
   it('should call solveFromImage and emit onSolveSuccess on successful upload', () => {
     const mockFile = new File([''], 'test.png', { type: 'image/png' });
     const mockSolution = [[9]];
-    mockSudokuApiService.solveFromImage.and.returnValue(of({ solution: mockSolution }));
-    spyOn(component.solveSuccess, 'emit');
+    mockSudokuApiService.solveFromImage.mockReturnValue(of({ solution: mockSolution }));
+    vi.spyOn(component.solveSuccess, 'emit').mockReturnValue(undefined);
 
     component.selectedFile = mockFile;
     component.onUpload();
@@ -60,7 +61,7 @@ describe('ImageUploaderComponent', () => {
   it('should set error message on failed upload', () => {
     const mockFile = new File([''], 'test.png', { type: 'image/png' });
     const errorResponse = { error: { msg: 'Test error' } };
-    mockSudokuApiService.solveFromImage.and.returnValue(throwError(() => errorResponse));
+    mockSudokuApiService.solveFromImage.mockReturnValue(throwError(() => errorResponse));
 
     component.selectedFile = mockFile;
     component.onUpload();

@@ -1,3 +1,4 @@
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { AuthService, User } from './auth.service';
@@ -10,7 +11,7 @@ describe('AuthService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [AuthService]
+      providers: [AuthService],
     });
     service = TestBed.inject(AuthService);
     httpTestingController = TestBed.inject(HttpTestingController);
@@ -30,10 +31,10 @@ describe('AuthService', () => {
       displayName: 'Test User',
       email: 'test@example.com',
       role: 'user',
-      createdAt: new Date()
+      createdAt: new Date(),
     };
 
-    service.fetchCurrentUser().subscribe(user => {
+    service.fetchCurrentUser().subscribe((user) => {
       expect(user).toEqual(mockUser);
       expect(service.currentUser()).toEqual(mockUser);
     });
@@ -44,7 +45,7 @@ describe('AuthService', () => {
   });
 
   it('should handle authentication error gracefully', () => {
-    service.fetchCurrentUser().subscribe(user => {
+    service.fetchCurrentUser().subscribe((user) => {
       expect(user).toBeNull();
       expect(service.currentUser()).toBeNull();
     });
@@ -56,7 +57,7 @@ describe('AuthService', () => {
   it('should check if user is authenticated', () => {
     // Initially undefined (not loaded)
     expect(service.isAuthenticated()).toBe(false);
-    
+
     // Mock setting a user
     service.fetchCurrentUser().subscribe();
     const req = httpTestingController.expectOne(`${apiUrl}/current-user`);
@@ -65,7 +66,7 @@ describe('AuthService', () => {
       displayName: 'Test User',
       email: 'test@example.com',
       role: 'user',
-      createdAt: new Date()
+      createdAt: new Date(),
     });
 
     expect(service.isAuthenticated()).toBe(true);
@@ -77,7 +78,7 @@ describe('AuthService', () => {
       displayName: 'Admin User',
       email: 'admin@example.com',
       role: 'admin',
-      createdAt: new Date()
+      createdAt: new Date(),
     };
 
     service.fetchCurrentUser().subscribe();

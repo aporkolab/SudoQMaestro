@@ -1,3 +1,4 @@
+import { beforeEach, describe, expect, it } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SudokuGridComponent } from './sudoku-grid';
 import { By } from '@angular/platform-browser';
@@ -8,9 +9,8 @@ describe('SudokuGridComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SudokuGridComponent] // It's a standalone component
-    })
-    .compileComponents();
+      imports: [SudokuGridComponent], // It's a standalone component
+    }).compileComponents();
 
     fixture = TestBed.createComponent(SudokuGridComponent);
     component = fixture.componentInstance;
@@ -23,7 +23,9 @@ describe('SudokuGridComponent', () => {
 
   it('should render 81 cells for a 9x9 grid', () => {
     // A simple 9x9 grid filled with 0s
-    component.grid = Array(9).fill(0).map(() => Array(9).fill(0));
+    component.grid = Array(9)
+      .fill(0)
+      .map(() => Array(9).fill(0));
     fixture.detectChanges();
 
     const cells = fixture.debugElement.queryAll(By.css('.sudoku-cell'));
@@ -31,7 +33,9 @@ describe('SudokuGridComponent', () => {
   });
 
   it('should display the correct numbers in the input fields', () => {
-    const testGrid = Array(9).fill(0).map(() => Array(9).fill(0));
+    const testGrid = Array(9)
+      .fill(0)
+      .map(() => Array(9).fill(0));
     testGrid[0][0] = 5;
     testGrid[8][8] = 9;
 

@@ -100,7 +100,7 @@ jobs:
     - name: Upload frontend coverage reports
       uses: codecov/codecov-action@v7
       with:
-        files: ./frontend/coverage/lcov.info
+        files: ./frontend/coverage/frontend/lcov.info
         flags: frontend
         fail_ci_if_error: false
       continue-on-error: true
@@ -180,24 +180,13 @@ jobs:
       with:
         node-version: '24'
     
-    - name: Install backend dependencies for audit
+    - name: Install root and workspace dependencies for audit
       run: |
-        npm ci --workspace=backend
+        npm ci --workspaces --include-workspace-root
     
-    - name: Run security audit for backend
+    - name: Audit all root and workspace dependencies
       run: |
-        npm audit --audit-level high --workspace=backend
-      continue-on-error: true
-    
-    - name: Install frontend dependencies for audit
-      run: |
-        npm ci --workspace=frontend
-    
-    - name: Run security audit for frontend
-      run: |
-        cd frontend
-        npm audit --audit-level high
-      continue-on-error: true
+        npm audit --audit-level=low --workspaces --include-workspace-root
 
   # CodeQL analysis moved to separate workflow (codeql.yml)
   # This keeps the main CI pipeline focused and faster

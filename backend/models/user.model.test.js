@@ -3,6 +3,11 @@
 import User from './user.model.js';
 
 describe('User Model', () => {
+  beforeAll(async () => {
+    // Wait for the unique index before tests start writing users.
+    await User.init();
+  });
+
   beforeEach(async () => {
     // Clear any existing data
     await User.deleteMany({});
@@ -55,7 +60,7 @@ describe('User Model', () => {
     await new User(userData1).save();
 
     // Attempting to save another user with the same googleId should fail
-    await expect(new User(userData2).save()).rejects.toThrow();
+    await expect(new User(userData2).save()).rejects.toMatchObject({ code: 11000 });
   });
 
   it('should allow users with same email (email is not unique in this schema)', async () => {
