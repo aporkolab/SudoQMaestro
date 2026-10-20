@@ -37,14 +37,14 @@ command_exists() {
 # Check Node.js version
 check_node_version() {
     if ! command_exists node; then
-        log_error "Node.js is not installed. Please install Node.js 20+ from https://nodejs.org/"
+        log_error "Node.js is not installed. Please install Node.js 24.15+ from https://nodejs.org/"
         exit 1
     fi
 
     local node_version=$(node -v | sed 's/v//')
-    local required_version="20.0.0"
+    local required_version="24.15.0"
     
-    if [[ "$(printf '%s\n' "$required_version" "$node_version" | sort -V | head -n1)" != "$required_version" ]]; then
+    if [[ "${node_version%%.*}" != "24" || "$(printf '%s\n' "$required_version" "$node_version" | sort -V | head -n1)" != "$required_version" ]]; then
         log_error "Node.js version $node_version is below required version $required_version"
         exit 1
     fi
