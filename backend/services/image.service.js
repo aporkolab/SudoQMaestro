@@ -48,7 +48,7 @@ export const processAndSolveImage = async (file) => {
         // Further process the cell for better OCR accuracy
         const processedCell = await processCellForOcr(cellImage);
 
-        const buffer = await processedCell.getBufferAsync(Jimp.MIME_PNG);
+        const buffer = await processedCell.getBufferAsync(Jimp.default.MIME_PNG);
 
         const { data: { text } } = await worker.recognize(buffer);
         const digit = parseInt(text.trim(), 10);
