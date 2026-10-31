@@ -37,7 +37,7 @@
     "express-session": "^1.18.0",
     "express-validator": "^7.2.1",
     "helmet": "^8.3.0",
-    "jimp": "^1.6.0",
+    "jimp": "^0.22.12",
     "joi": "^18.2.9",
     "lodash": "^4.17.21",
     "mongoose": "^9.10.3",

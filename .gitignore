@@ -131,3 +131,7 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Keep the audited dependency backport in source control.
+!vendor/minimatch/dist/
+!vendor/minimatch/dist/**

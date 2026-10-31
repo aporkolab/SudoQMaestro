@@ -17,6 +17,8 @@ WORKDIR /app
 COPY package*.json ./
 COPY backend/package*.json ./backend/
 COPY frontend/package.json ./frontend/package.json
+COPY .npmrc ./
+COPY vendor/ ./vendor/
 
 # Install only production dependencies for workspace
 # Set environment variables to skip husky and scripts
