@@ -17,6 +17,7 @@ import { solveSudoku } from './sudoku.service.js';
  * @returns {Promise<number[][] | null>} - The solved grid, or null if it cannot be solved.
  */
 export const processAndSolveImage = async (file) => {
+  let worker;
   try {
     const image = await Jimp.default.read(file.buffer);
 
@@ -32,7 +33,7 @@ export const processAndSolveImage = async (file) => {
     const cellWidth = image.bitmap.width / 9;
     const cellHeight = image.bitmap.height / 9;
 
-    const worker = await Tesseract.createWorker('eng', 1, {
+    worker = await Tesseract.createWorker('eng', 1, {
       // eslint-disable-next-line no-console
       logger: m => console.log(m) // Log OCR progress
     });
@@ -61,8 +62,6 @@ export const processAndSolveImage = async (file) => {
       }
     }
 
-    await worker.terminate();
-
     // eslint-disable-next-line no-console
     console.log('Recognized Grid:', puzzleGrid);
 
@@ -73,6 +72,16 @@ export const processAndSolveImage = async (file) => {
     // eslint-disable-next-line no-console
     console.error('Error processing image:', error);
     return null;
+  } finally {
+    // Failed OCR must not leave a worker alive after the request finishes.
+    if (worker) {
+      try {
+        await worker.terminate();
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error('Error terminating OCR worker:', error);
+      }
+    }
   }
 };
 

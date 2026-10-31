@@ -1,5 +1,9 @@
 name: CI/CD Pipeline
 
+env:
+  NG_CLI_ANALYTICS: 'false'
+  DO_NOT_TRACK: '1'
+
 # Add permissions for CodeQL, security scanning, and container registry
 permissions:
   actions: read
@@ -187,6 +191,9 @@ jobs:
     - name: Audit all root and workspace dependencies
       run: |
         npm audit --audit-level=low --workspaces --include-workspace-root
+
+    - name: Verify dependency security regressions
+      run: npm run test:dependency-guards
 
   # CodeQL analysis moved to separate workflow (codeql.yml)
   # This keeps the main CI pipeline focused and faster

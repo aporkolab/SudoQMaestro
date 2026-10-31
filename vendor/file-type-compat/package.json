@@ -1,0 +1,9 @@
+{
+  "name": "@sudoqmaestro/file-type-compat",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.cjs",
+  "dependencies": {
+    "file-type-modern": "npm:file-type@^22.3.0"
+  }
+}
