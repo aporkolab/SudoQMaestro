@@ -32,7 +32,7 @@
     "docker:up": "./scripts/docker-dev.sh start",
     "docker:down": "./scripts/docker-dev.sh stop",
     "setup": "./scripts/dev-setup.sh",
-    "test:dependency-guards": "node --test scripts/dependency-guards.test.cjs"
+    "test:dependency-guards": "node --test scripts/dependency-guards.test.cjs vendor/picomatch/test.cjs"
   },
   "keywords": [
     "sudoku",
@@ -52,7 +52,8 @@
     "concurrently": "^9.2.1",
     "rimraf": "^6.0.1",
     "deepmerge": "file:vendor/deepmerge",
-    "minimatch": "file:vendor/minimatch"
+    "minimatch": "file:vendor/minimatch",
+    "picomatch": "file:vendor/picomatch"
   },
   "engines": {
     "node": "^24.15.0",
@@ -77,7 +78,8 @@
       "minimatch": "^11.0.3"
     },
     "deepmerge": "$deepmerge",
-    "minimatch": "$minimatch"
+    "minimatch": "$minimatch",
+    "picomatch": "$picomatch"
   },
   "dependencies": {
     "file-type": "file:vendor/file-type-compat"

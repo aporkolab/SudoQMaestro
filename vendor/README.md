@@ -26,3 +26,7 @@ Run `npm run test:dependency-guards` to exercise the security regressions and th
 Jimp integration, followed by the frontend/backend test suites and the full audit.
 Remove these overrides when upstream callers adopt compatible fixed dependencies;
 keep the regression tests when replacing the temporary adapters.
+
+- `picomatch` is a separately named MIT-licensed fork of 4.0.7. It closes
+  CVE-2026-112366 by literalizing repeated extglob bodies with unbounded wildcards,
+  including single-branch bodies. See picomatch/README.md for the behavior change.
