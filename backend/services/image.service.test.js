@@ -1,6 +1,7 @@
 import { jest } from '@jest/globals';
 import Jimp from 'jimp';
 import Tesseract from 'tesseract.js';
+
 import { processAndSolveImage } from './image.service.js';
 
 describe('Image service', () => {
